@@ -42,7 +42,7 @@ class ActionMailer::ARSendmail
   ##
   # The version of ActionMailer::ARSendmail you are running.
 
-  VERSION = '2.1.5'
+  VERSION = '2.1.6'
 
   ##
   # Maximum number of times authentication will be consecutively retried
@@ -98,7 +98,7 @@ class ActionMailer::ARSendmail
   # to learn how to enable ActiveRecord::Timestamp.
 
   def self.mailq
-    emails = ActionMailer::Base.email_class.find(:all, :order=>:priority)
+    emails = ActionMailer::Base.email_class.find(:all, :order=> 'priority, id')
 
     if emails.empty? then
       puts "Mail queue is empty"
@@ -425,7 +425,7 @@ class ActionMailer::ARSendmail
   # last 300 seconds.
 
   def find_emails
-    options = { :conditions => ['last_send_attempt < ?', Time.now.to_i - 300], :order=>:priority}
+    options = { :conditions => ['last_send_attempt < ?', Time.now.to_i - 300], :order=> 'priority, id'}
     options[:limit] = batch_size unless batch_size.nil?
     mail = ActionMailer::Base.email_class.find :all, options
 

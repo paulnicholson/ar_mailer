@@ -7,6 +7,7 @@ class <%= migration_name %> < ActiveRecord::Migration
       t.text :mail
       t.timestamps
     end
+    add_index :<%= table_name %>, [:priority, :id]
   end
 
   def self.down
